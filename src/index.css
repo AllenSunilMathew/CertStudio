@@ -1,0 +1,288 @@
+@import "tailwindcss";
+
+/* ── Design Tokens ─────────────────────────────────────────────────────────── */
+@theme {
+  --color-primary-50:  #eef2ff;
+  --color-primary-100: #e0e7ff;
+  --color-primary-500: #6366f1;
+  --color-primary-600: #4f46e5;
+  --color-primary-700: #4338ca;
+  --color-violet-500:  #8b5cf6;
+  --color-violet-600:  #7c3aed;
+  --font-sans: 'Inter', sans-serif;
+}
+
+/* ── Reset ─────────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* ── Global Background ───────────────────────────────────────────────────────── */
+body {
+  font-family: 'Inter', sans-serif;
+  color: #e2e8f0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #060c1a;
+  background-image:
+    url('/bg_grid_lines.jpg'),
+    url('/bg_abstract.jpg');
+  background-size: cover, cover;
+  background-position: center center;
+  background-attachment: fixed;
+  background-blend-mode: overlay, normal;
+  overflow: hidden;
+}
+
+/* ── Particle star field layer ──────────────────────────────────────────────── */
+.bg-particles {
+  position: absolute;
+  inset: 0;
+  background-image: url('/particles_bg.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18;
+  mix-blend-mode: screen;
+  animation: particle-drift 40s linear infinite alternate;
+}
+@keyframes particle-drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-3%, -3%) scale(1.06); }
+}
+
+/* ── Grid overlay layer ─────────────────────────────────────────────────────── */
+.bg-grid-layer {
+  background-image: url('/bg_grid_lines.jpg');
+  background-size: cover;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+
+/* ── Floating orb decorations ────────────────────────────────────────────────── */
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bg-orbs::before {
+  content: '';
+  position: absolute;
+  top: -15%;
+  left: -10%;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(circle, rgba(99,102,241,0.4) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orb-drift-1 18s ease-in-out infinite alternate;
+}
+.bg-orbs::after {
+  content: '';
+  position: absolute;
+  bottom: -15%;
+  right: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(168,85,247,0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(90px);
+  animation: orb-drift-2 22s ease-in-out infinite alternate;
+}
+
+/* Additional orbs */
+.bg-orbs .orb-1 {
+  position: absolute;
+  top: 40%;
+  left: 45%;
+  width: 40%;
+  height: 40%;
+  background: radial-gradient(circle, rgba(99,102,241,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(80px);
+  animation: orb-drift-3 25s ease-in-out infinite alternate;
+}
+.bg-orbs .orb-2 {
+  position: absolute;
+  top: 10%;
+  right: 15%;
+  width: 25%;
+  height: 25%;
+  background: radial-gradient(circle, rgba(236,72,153,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: orb-drift-1 15s ease-in-out infinite alternate;
+}
+.bg-orbs .orb-3 {
+  position: absolute;
+  bottom: 20%;
+  left: 20%;
+  width: 30%;
+  height: 30%;
+  background: radial-gradient(circle, rgba(245,158,11,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(70px);
+  animation: orb-drift-2 20s ease-in-out infinite alternate;
+}
+.bg-orbs .orb-4 {
+  position: absolute;
+  top: 60%;
+  right: 30%;
+  width: 20%;
+  height: 20%;
+  background: radial-gradient(circle, rgba(52,211,153,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(50px);
+  animation: orb-drift-3 12s ease-in-out infinite alternate;
+}
+.bg-orbs .orb-5 {
+  position: absolute;
+  top: 5%;
+  left: 40%;
+  width: 18%;
+  height: 18%;
+  background: radial-gradient(circle, rgba(139,92,246,0.2) 0%, transparent 70%);
+  border-radius: 50%;
+  filter: blur(45px);
+  animation: orb-drift-1 13s ease-in-out infinite alternate-reverse;
+}
+
+/* Floating cert decoration */
+.bg-cert-float {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 380px;
+  height: 214px;
+  background-image: url('/bg_certificate_float.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.05;
+  pointer-events: none;
+  z-index: 0;
+  mask-image: radial-gradient(ellipse at bottom right, black 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at bottom right, black 0%, transparent 70%);
+}
+
+@keyframes orb-drift-1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(6%, 8%) scale(1.12); }
+}
+@keyframes orb-drift-2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-5%, -7%) scale(1.08); }
+}
+@keyframes orb-drift-3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(3%, -4%) scale(1.06); }
+  100% { transform: translate(-8%, 5%) scale(1.15); }
+}
+
+/* ── Floating animation ──────────────────────────────────────────────────────── */
+@keyframes float-up-down {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50%       { transform: translateY(-12px) rotate(1deg); }
+}
+.float-anim { animation: float-up-down 6s ease-in-out infinite; }
+
+/* ── Scan line effect ────────────────────────────────────────────────────────── */
+@keyframes scan {
+  0%   { transform: translateY(-100%); }
+  100% { transform: translateY(100vh); }
+}
+.scan-line {
+  position: fixed;
+  left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(99,102,241,0.15) 50%, transparent 100%);
+  animation: scan 8s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Content sits above background ─────────────────────────────────────────── */
+#root > * { position: relative; z-index: 1; }
+
+/* ── Scrollbar ──────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: rgba(15,23,42,0.3); }
+::-webkit-scrollbar-thumb { background: #4f46e5; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+/* ── Glassmorphism card ─────────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(12, 18, 40, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(99, 102, 241, 0.13);
+  border-radius: 20px;
+}
+
+/* ── Gradient text ─────────────────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #6366f1 0%, #a78bfa 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Shimmer skeleton ──────────────────────────────────────────────────────── */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, #1e293b 25%, #263349 50%, #1e293b 75%);
+  background-size: 800px 100%;
+  animation: shimmer 1.6s infinite linear;
+}
+
+/* ── Pulse glow ─────────────────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(99, 102, 241, 0.45); }
+  50%       { box-shadow: 0 0 32px rgba(139, 92, 246, 0.8); }
+}
+.pulse-glow { animation: pulse-glow 2.2s ease-in-out infinite; }
+
+/* ── Twinkle for stat badges ────────────────────────────────────────────────── */
+@keyframes twinkle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.6; transform: scale(0.95); }
+}
+.twinkle { animation: twinkle 3s ease-in-out infinite; }
+
+/* ── Upload zone ────────────────────────────────────────────────────────────── */
+.upload-zone {
+  border: 2px dashed rgba(99, 102, 241, 0.35);
+  border-radius: 16px;
+  transition: all 0.25s ease;
+}
+.upload-zone:hover,
+.upload-zone.drag-active {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.07);
+}
+
+/* ── Sidebar active ─────────────────────────────────────────────────────────── */
+.sidebar-active {
+  background: linear-gradient(135deg, rgba(79, 70, 229, 0.22), rgba(124, 58, 237, 0.13));
+  border-left: 3px solid #6366f1;
+}
+
+/* ── Misc utils ─────────────────────────────────────────────────────────────── */
+.border-3 { border-width: 3px; }
+.hover\:bg-white\/3:hover { background: rgba(255,255,255,0.03); }
+
+/* ── Responsive page padding ─────────────────────────────────────────────────── */
+.page-pad { padding: clamp(1rem, 3vw, 1.5rem); }
+
+/* ── Mobile: ensure touch targets are large enough ──────────────────────────── */
+@media (max-width: 640px) {
+  .glass-card { border-radius: 16px; }
+  button, a { min-height: 36px; }
+}
