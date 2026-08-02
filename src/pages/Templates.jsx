@@ -353,7 +353,7 @@ function Modal({ title, onClose, children }) {
 function TypeCard({ type, onEdit, onDelete }) {
   const cat = CATEGORIES.find(c => c.value === type.category) || CATEGORIES[3];
   return (
-    <motion.div whileHover={{ y: -3 }} className="glass-card overflow-hidden flex flex-col cursor-pointer"
+    <motion.div whileHover={{ y: -3 }} className="glass-card overflow-hidden flex flex-col cursor-pointer group"
       onClick={() => onEdit(type)}>
       {/* Template thumbnail */}
       <div className="relative h-36 overflow-hidden" style={{ background: type.bgColor || '#CECCBF' }}>
@@ -371,9 +371,13 @@ function TypeCard({ type, onEdit, onDelete }) {
             Custom Template
           </span>
         )}
-        <button onClick={e => { e.stopPropagation(); onDelete(type.id); }}
-          className="absolute bottom-2 right-2 p-1.5 rounded-lg text-red-400 hover:bg-red-500/20 transition-colors opacity-0 group-hover:opacity-100">
-          <Trash2 size={13} />
+        {/* Delete button — always visible */}
+        <button
+          onClick={e => { e.stopPropagation(); onDelete(type); }}
+          title="Delete template"
+          className="absolute bottom-2 right-2 p-1.5 rounded-lg text-red-400 hover:bg-red-500/20 transition-all hover:scale-110"
+          style={{ background: 'rgba(0,0,0,0.45)', backdropFilter: 'blur(4px)' }}>
+          <Trash2 size={14} />
         </button>
       </div>
       <div className="p-4 flex-1">
@@ -385,13 +389,54 @@ function TypeCard({ type, onEdit, onDelete }) {
   );
 }
 
+// ── Delete confirmation modal ─────────────────────────────────────────────────
+function DeleteModal({ type, onConfirm, onCancel }) {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
+      style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(6px)' }}
+      onClick={onCancel}>
+      <motion.div
+        initial={{ scale: 0.92, opacity: 0, y: 16 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.92, opacity: 0, y: 16 }}
+        transition={{ type: 'spring', stiffness: 300, damping: 24 }}
+        className="glass-card w-full max-w-sm p-6"
+        onClick={e => e.stopPropagation()}>
+        <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-4 mx-auto"
+          style={{ background: 'rgba(239,68,68,0.15)' }}>
+          <Trash2 size={22} className="text-red-400" />
+        </div>
+        <h3 className="text-lg font-bold text-white text-center">Delete template?</h3>
+        <p className="text-sm text-slate-400 text-center mt-2">
+          <strong className="text-slate-200">"{type.name}"</strong> and its settings will be permanently removed.
+          This cannot be undone.
+        </p>
+        <div className="flex gap-3 mt-6">
+          <button onClick={onCancel}
+            className="flex-1 px-4 py-2.5 rounded-xl text-sm text-slate-300 hover:bg-white/5 transition-colors">
+            Cancel
+          </button>
+          <motion.button whileTap={{ scale: 0.97 }}
+            onClick={onConfirm}
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white"
+            style={{ background: 'linear-gradient(135deg,#ef4444,#dc2626)' }}>
+            <Trash2 size={15} /> Delete
+          </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 // ── Main page ─────────────────────────────────────────────────────────────────
 export default function Templates() {
   const { certTypes, addType, updateType, deleteType } = useApp();
-  const [showForm,   setShowForm]   = useState(false);
-  const [editTarget, setEditTarget] = useState(null);
-  const [form,       setForm]       = useState(DEFAULT);
-  const [saving,     setSaving]     = useState(false);
+  const [showForm,      setShowForm]      = useState(false);
+  const [editTarget,    setEditTarget]    = useState(null);
+  const [form,          setForm]          = useState(DEFAULT);
+  const [saving,        setSaving]        = useState(false);
+  const [deleteTarget,  setDeleteTarget]  = useState(null);
 
   const field = (key, val) => setForm(p => ({ ...p, [key]: val }));
 
@@ -467,7 +512,7 @@ export default function Templates() {
             {certTypes.map(t => (
               <TypeCard key={t.id} type={t}
                 onEdit={openEdit}
-                onDelete={id => { deleteType(id); toast.success('Deleted'); }} />
+                onDelete={type => setDeleteTarget(type)} />
             ))}
           </div>
         )}
@@ -702,6 +747,21 @@ export default function Templates() {
 
             </div>
           </Modal>
+        )}
+      </AnimatePresence>
+
+      {/* Delete confirmation modal */}
+      <AnimatePresence>
+        {deleteTarget && (
+          <DeleteModal
+            type={deleteTarget}
+            onCancel={() => setDeleteTarget(null)}
+            onConfirm={() => {
+              deleteType(deleteTarget.id);
+              toast.success(`"${deleteTarget.name}" deleted`);
+              setDeleteTarget(null);
+            }}
+          />
         )}
       </AnimatePresence>
     </div>

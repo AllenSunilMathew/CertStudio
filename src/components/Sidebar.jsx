@@ -1,4 +1,4 @@
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   LayoutDashboard, Award, Zap, History, Settings,
@@ -59,31 +59,34 @@ export default function Sidebar({ onClose, showCloseBtn }) {
       {/* ── All content above bg ── */}
       <div className="relative z-10 flex flex-col flex-1">
 
-        {/* Logo */}
-        <div className="flex items-center gap-3 px-6 py-5 border-b"
-          style={{ borderColor: 'rgba(99,102,241,0.15)' }}>
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 pulse-glow"
-            style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)' }}>
-            <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
-              <rect x="6" y="8" width="36" height="28" rx="4" fill="white" fillOpacity="0.2"/>
-              <rect x="6" y="8" width="36" height="28" rx="4" stroke="white" strokeWidth="2.5"/>
-              <circle cx="24" cy="18" r="4" fill="white"/>
-              <path d="M12 32c0-6.627 5.373-8 12-8s12 1.373 12 8" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
-              <circle cx="40" cy="38" r="6" fill="#4f46e5" stroke="white" strokeWidth="2"/>
-              <path d="M37.5 38l1.5 1.5 3-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+        {/* Logo — click to go to Dashboard */}
+        <Link to="/" className="block group">
+          <div className="flex items-center gap-3 px-6 py-5 border-b"
+            style={{ borderColor: 'rgba(99,102,241,0.15)' }}
+            onClick={onClose}>
+            <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 pulse-glow group-hover:scale-105 transition-transform"
+              style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)' }}>
+              <svg width="22" height="22" viewBox="0 0 48 48" fill="none">
+                <rect x="6" y="8" width="36" height="28" rx="4" fill="white" fillOpacity="0.2"/>
+                <rect x="6" y="8" width="36" height="28" rx="4" stroke="white" strokeWidth="2.5"/>
+                <circle cx="24" cy="18" r="4" fill="white"/>
+                <path d="M12 32c0-6.627 5.373-8 12-8s12 1.373 12 8" stroke="white" strokeWidth="2.5" strokeLinecap="round"/>
+                <circle cx="40" cy="38" r="6" fill="#4f46e5" stroke="white" strokeWidth="2"/>
+                <path d="M37.5 38l1.5 1.5 3-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
+            <div className="flex-1 min-w-0">
+              <h1 className="text-white font-bold text-lg leading-tight tracking-tight group-hover:text-indigo-300 transition-colors">CertStudio</h1>
+              <p className="text-xs" style={{ color: 'rgba(148,163,184,0.7)' }}>Certificate Platform</p>
+            </div>
+            {showCloseBtn && (
+              <button onClick={e => { e.preventDefault(); onClose(); }}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all shrink-0">
+                <X size={16} />
+              </button>
+            )}
           </div>
-          <div className="flex-1 min-w-0">
-            <h1 className="text-white font-bold text-lg leading-tight tracking-tight">CertStudio</h1>
-            <p className="text-xs" style={{ color: 'rgba(148,163,184,0.7)' }}>Certificate Platform</p>
-          </div>
-          {showCloseBtn && (
-            <button onClick={onClose}
-              className="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-all shrink-0">
-              <X size={16} />
-            </button>
-          )}
-        </div>
+        </Link>
 
         {/* Nav */}
         <nav className="flex-1 px-3 py-4 space-y-1">

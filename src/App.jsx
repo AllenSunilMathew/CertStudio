@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X, Award } from 'lucide-react';
@@ -43,8 +43,8 @@ function MobileTopBar({ onMenuClick }) {
         backdropFilter: 'blur(16px)',
         borderBottom: '1px solid rgba(99,102,241,0.15)',
       }}>
-      {/* Brand */}
-      <div className="flex items-center gap-2.5">
+      {/* Brand — click to go to Dashboard */}
+      <Link to="/" className="flex items-center gap-2.5 px-2 py-1 -mx-2 rounded-xl hover:bg-white/5 transition-colors">
         <div className="w-7 h-7 rounded-lg flex items-center justify-center"
           style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)' }}>
           <Award size={14} className="text-white" />
@@ -52,7 +52,7 @@ function MobileTopBar({ onMenuClick }) {
         <span className="text-sm font-bold text-white">
           Cert<span className="text-indigo-400">Studio</span>
         </span>
-      </div>
+      </Link>
       {/* Hamburger */}
       <button onClick={onMenuClick}
         className="w-9 h-9 flex items-center justify-center rounded-xl text-slate-300 hover:text-white hover:bg-white/10 transition-all">
@@ -71,8 +71,8 @@ function Footer() {
         backdropFilter: 'blur(12px)',
         borderTop: '1px solid rgba(99,102,241,0.12)',
       }}>
-      {/* Left: brand */}
-      <div className="flex items-center gap-2">
+      {/* Left: brand — click to go to Dashboard */}
+      <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
         <div className="w-5 h-5 rounded-md flex items-center justify-center shrink-0"
           style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)' }}>
           <svg width="11" height="11" viewBox="0 0 48 48" fill="none">
@@ -84,7 +84,7 @@ function Footer() {
         <span className="text-xs font-semibold text-slate-400">
           Cert<span className="text-indigo-400">Studio</span>
         </span>
-      </div>
+      </Link>
 
       {/* Center: copyright */}
       <p className="text-[11px] text-slate-500 text-center">

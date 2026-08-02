@@ -22,4 +22,11 @@
 - [x] 11. `src/index.css` — Fix invisible dropdown options (dark background + readable text).
 - [x] 12. Verify — Confirm the app builds (✓ 713ms) and the fixes work in the browser.
 - [x] 13. Add static default lines as customizable text elements: `introLine` ("This is to certify that"), `completedLine` ("has successfully completed the"), and prefix "from …", "at …", "Registration ID:" — so textbox values stay empty by default and are printed only when filled. Built-in design updated to match (removed trailing comma after department).
+- [x] 14. Delete template — Fix invisible delete (trash) button on template cards (missing `group` class) and add a confirmation dialog (`DeleteModal`) so templates can be safely deleted when needed.
+- [x] 15. README + .gitignore — Fully updated README documentation; `TODO.md` added to `.gitignore`.
+- [x] 16. Logo / CertStudio navigation — Sidebar logo, mobile top bar brand, and footer brand now link to the Dashboard (`/`) with hover effects; mobile drawer closes on navigation.
+- [x] 17. Preloader responsive — Icon badge, title, tagline, progress bar, orbs, and watermark now scale responsively across mobile/tablet/desktop (removed non-existent `xs:` breakpoint, added `sm:`/`md:` variants, `whitespace-nowrap`, max-width progress bar, centered watermark).
+- [x] 18. Preloader full-screen fix — The `#root > * { position: relative; z-index: 1; }` CSS rule (specificity 1-0-0) was overriding Tailwind's `.fixed` (0-1-0), collapsing the preloader to content height. Added inline `position: fixed; top/right/bottom/left: 0; zIndex: 100` which always wins over stylesheet rules.
+
+
 

@@ -54,7 +54,8 @@ export default function Preloader({ onComplete }) {
           exit={{ opacity: 0, scale: 1.04 }}
           transition={{ duration: 0.55, ease: 'easeInOut' }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center overflow-hidden"
-          style={{ background: '#060c1a' }}>
+          style={{ position: 'fixed', top: 0, right: 0, bottom: 0, left: 0, zIndex: 100, background: '#060c1a' }}>
+
 
           {/* ── Full-bleed background image ── */}
           <div className="absolute inset-0"
@@ -69,16 +70,16 @@ export default function Preloader({ onComplete }) {
           <div className="absolute inset-0"
             style={{ background: 'linear-gradient(135deg,rgba(6,12,26,0.85) 0%,rgba(20,10,50,0.75) 50%,rgba(6,12,26,0.9) 100%)' }} />
 
-          {/* ── Animated glowing orbs ── */}
-          <motion.div className="absolute w-[500px] h-[500px] rounded-full pointer-events-none"
+          {/* ── Animated glowing orbs (responsive sizes) ── */}
+          <motion.div className="absolute w-64 h-64 sm:w-[420px] sm:h-[420px] lg:w-[500px] lg:h-[500px] rounded-full pointer-events-none"
             style={{ background: 'radial-gradient(circle,rgba(99,102,241,0.35) 0%,transparent 70%)', filter: 'blur(60px)', top: '5%', left: '10%' }}
             animate={{ x: [0, 40, 0], y: [0, -30, 0], scale: [1, 1.1, 1] }}
             transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }} />
-          <motion.div className="absolute w-96 h-96 rounded-full pointer-events-none"
+          <motion.div className="absolute w-48 h-48 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-full pointer-events-none"
             style={{ background: 'radial-gradient(circle,rgba(168,85,247,0.3) 0%,transparent 70%)', filter: 'blur(50px)', bottom: '10%', right: '10%' }}
             animate={{ x: [0, -30, 0], y: [0, 20, 0], scale: [1, 1.15, 1] }}
             transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 2 }} />
-          <motion.div className="absolute w-72 h-72 rounded-full pointer-events-none"
+          <motion.div className="absolute w-40 h-40 sm:w-64 sm:h-64 lg:w-72 lg:h-72 rounded-full pointer-events-none"
             style={{ background: 'radial-gradient(circle,rgba(236,72,153,0.2) 0%,transparent 70%)', filter: 'blur(40px)', top: '40%', right: '5%' }}
             animate={{ x: [0, 20, 0], y: [0, -40, 0] }}
             transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut', delay: 1 }} />
@@ -99,7 +100,7 @@ export default function Preloader({ onComplete }) {
           ))}
 
           {/* ── Central content ── */}
-          <motion.div className="relative z-10 flex flex-col items-center gap-8 px-4"
+          <motion.div className="relative z-10 flex flex-col items-center gap-5 sm:gap-8 px-4 w-full"
             initial={{ opacity: 0, y: 40, scale: 0.85 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.34, 1.56, 0.64, 1] }}>
@@ -107,17 +108,26 @@ export default function Preloader({ onComplete }) {
             {/* Medal image + icon badge */}
             <div className="relative">
               {/* Background medal glow */}
-              <motion.div className="absolute inset-0 w-32 h-32 rounded-full"
+              <motion.div className="absolute inset-0 w-24 h-24 sm:w-32 sm:h-32 rounded-full"
                 style={{ background: 'radial-gradient(circle,rgba(99,102,241,0.5) 0%,transparent 70%)', filter: 'blur(20px)', transform: 'scale(1.8)' }}
                 animate={{ scale: [1.8, 2.2, 1.8] }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }} />
 
               {/* Main icon */}
-              <motion.div className="relative w-28 h-28 rounded-3xl flex items-center justify-center"
+              <motion.div className="relative w-20 h-20 sm:w-28 sm:h-28 rounded-2xl sm:rounded-3xl flex items-center justify-center"
                 style={{ background: 'linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#6d28d9 100%)', boxShadow: '0 0 60px rgba(99,102,241,0.6), 0 0 120px rgba(99,102,241,0.2)' }}
                 animate={{ boxShadow: ['0 0 60px rgba(99,102,241,0.6), 0 0 120px rgba(99,102,241,0.2)', '0 0 80px rgba(139,92,246,0.8), 0 0 140px rgba(139,92,246,0.3)', '0 0 60px rgba(99,102,241,0.6), 0 0 120px rgba(99,102,241,0.2)'] }}
                 transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}>
-                <svg width="56" height="56" viewBox="0 0 48 48" fill="none">
+                <svg width="40" height="40" viewBox="0 0 48 48" fill="none" className="sm:hidden">
+                  <rect x="6" y="8" width="36" height="28" rx="4" fill="white" fillOpacity="0.15"/>
+                  <rect x="6" y="8" width="36" height="28" rx="4" stroke="white" strokeWidth="2"/>
+                  <circle cx="24" cy="18" r="4" fill="white"/>
+                  <path d="M12 32c0-6.627 5.373-8 12-8s12 1.373 12 8" stroke="white" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M34 4l2 2-2 2M38 6H30" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <circle cx="40" cy="38" r="6" fill="#4f46e5" stroke="white" strokeWidth="2"/>
+                  <path d="M37.5 38l1.5 1.5 3-3" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+                <svg width="56" height="56" viewBox="0 0 48 48" fill="none" className="hidden sm:block">
                   <rect x="6" y="8" width="36" height="28" rx="4" fill="white" fillOpacity="0.15"/>
                   <rect x="6" y="8" width="36" height="28" rx="4" stroke="white" strokeWidth="2"/>
                   <circle cx="24" cy="18" r="4" fill="white"/>
@@ -129,30 +139,30 @@ export default function Preloader({ onComplete }) {
               </motion.div>
 
               {/* Orbiting ring */}
-              <motion.div className="absolute inset-0 w-28 h-28"
+              <motion.div className="absolute inset-0 w-20 h-20 sm:w-28 sm:h-28"
                 animate={{ rotate: 360 }}
                 transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}>
-                <div className="absolute -top-2 left-1/2 w-4 h-4 rounded-full -translate-x-1/2"
+                <div className="absolute -top-2 left-1/2 w-3 h-3 sm:w-4 sm:h-4 rounded-full -translate-x-1/2"
                   style={{ background: 'linear-gradient(135deg,#a78bfa,#ec4899)', boxShadow: '0 0 12px #a78bfa' }} />
               </motion.div>
-              <motion.div className="absolute inset-0 w-28 h-28"
+              <motion.div className="absolute inset-0 w-20 h-20 sm:w-28 sm:h-28"
                 animate={{ rotate: -360 }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'linear' }}>
-                <div className="absolute -bottom-2 left-1/2 w-3 h-3 rounded-full -translate-x-1/2"
+                <div className="absolute -bottom-2 left-1/2 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full -translate-x-1/2"
                   style={{ background: 'linear-gradient(135deg,#34d399,#10b981)', boxShadow: '0 0 8px #34d399' }} />
               </motion.div>
             </div>
 
             {/* Title */}
-            <div className="text-center">
-              <motion.h1 className="text-5xl sm:text-6xl font-extrabold tracking-tight"
+            <div className="text-center px-2">
+              <motion.h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight whitespace-nowrap"
                 style={{ background: 'linear-gradient(135deg,#e0e7ff,#a5b4fc,#c4b5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}
                 initial={{ opacity: 0, letterSpacing: '0.3em' }}
                 animate={{ opacity: 1, letterSpacing: '-0.02em' }}
                 transition={{ duration: 0.9, delay: 0.2 }}>
                 CertStudio
               </motion.h1>
-              <motion.p className="text-slate-400 text-sm mt-2 tracking-[0.3em] uppercase"
+              <motion.p className="text-slate-400 text-[10px] sm:text-xs md:text-sm mt-1.5 sm:mt-2 tracking-[0.2em] sm:tracking-[0.3em] uppercase"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
                 Certificate Generation Platform
               </motion.p>
@@ -162,7 +172,7 @@ export default function Preloader({ onComplete }) {
             <AnimatePresence>
               {phase >= 1 && (
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-                  className="w-72 sm:w-80 space-y-2">
+                  className="w-full max-w-[300px] sm:w-80 space-y-2 px-4 sm:px-0">
                   <div className="flex justify-between text-xs">
                     <motion.span className="text-slate-400" key={tagline}
                       initial={{ opacity: 0, x: -8 }} animate={{ opacity: 1, x: 0 }}>
@@ -194,7 +204,7 @@ export default function Preloader({ onComplete }) {
           </motion.div>
 
           {/* Bottom watermark */}
-          <motion.p className="absolute bottom-6 text-[11px] text-slate-600 tracking-widest"
+          <motion.p className="absolute bottom-3 sm:bottom-6 text-[9px] sm:text-[11px] text-slate-600 tracking-widest px-2 text-center"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}>
             © {new Date().getFullYear()} Allen Sunil Mathew
           </motion.p>
