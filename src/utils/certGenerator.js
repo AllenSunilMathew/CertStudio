@@ -150,7 +150,7 @@ async function drawBuiltInContent(ctx, W, H, cfg) {
   }
   if (cfg.department) {
     ctx.save(); ctx.font='17px Inter,sans-serif'; ctx.fillStyle='#444'; ctx.textAlign='center'; ctx.textBaseline='top';
-    const dl = wrapText(ctx, `from ${cfg.department},`, BODY_MAX);
+    const dl = wrapText(ctx, `from ${cfg.department}`, BODY_MAX);
     dl.forEach((l,i) => ctx.fillText(l, cx, y+i*24)); ctx.restore(); y += dl.length*24+2;
   }
   if (cfg.college) {
@@ -253,13 +253,15 @@ export async function generateCertificate(cfg) {
     if (!elements) {
       elements = [
         { id: 'certTitle',     label: 'Certificate Title',    x: 50, y: 20, fontSize: 40, fontFamily: 'Dancing Script', bold: true, italic: true, color: '#1B3264', align: 'center', enabled: true },
+        { id: 'introLine',     label: 'Intro Line (This is to certify that)', x: 50, y: 28, fontSize: 18, fontFamily: 'Inter', bold: false, italic: false, color: '#333333', align: 'center', enabled: true },
         { id: 'studentName',   label: 'Student Name',         x: 50, y: 36, fontSize: 38, fontFamily: 'Inter', bold: true,  italic: false, color: '#1B3264', align: 'center', enabled: true },
-        { id: 'courseName',    label: 'Course / Program',     x: 50, y: 57, fontSize: 26, fontFamily: 'Inter', bold: true,  italic: false, color: '#1B3264', align: 'center', enabled: true },
-        { id: 'department',    label: 'Department',           x: 50, y: 48, fontSize: 18, fontFamily: 'Inter', bold: false, italic: false, color: '#444444', align: 'center', enabled: true },
-        { id: 'college',       label: 'College / Institution', x: 50, y: 54, fontSize: 18, fontFamily: 'Inter', bold: true,  italic: false, color: '#333333', align: 'center', enabled: true },
-        { id: 'description',   label: 'Description / Program Details', x: 50, y: 66, fontSize: 16, fontFamily: 'Inter', bold: false, italic: false, color: '#444444', align: 'center', enabled: true },
-        { id: 'companyName',   label: 'Company Name',        x: 50, y: 71, fontSize: 18, fontFamily: 'Inter', bold: true,  italic: false, color: '#333333', align: 'center', enabled: true },
-        { id: 'registrationId', label: 'Registration ID',     x: 10, y: 78, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#555555', align: 'left',   enabled: true },
+        { id: 'department',    label: 'Department (from …)',  x: 50, y: 44, fontSize: 18, fontFamily: 'Inter', bold: false, italic: false, color: '#444444', align: 'center', enabled: true },
+        { id: 'college',       label: 'College / Institution', x: 50, y: 50, fontSize: 18, fontFamily: 'Inter', bold: true,  italic: false, color: '#333333', align: 'center', enabled: true },
+        { id: 'completedLine', label: 'Completed Line (has successfully completed the)', x: 50, y: 56, fontSize: 18, fontFamily: 'Inter', bold: false, italic: false, color: '#333333', align: 'center', enabled: true },
+        { id: 'courseName',    label: 'Course / Program',     x: 50, y: 62, fontSize: 26, fontFamily: 'Inter', bold: true,  italic: false, color: '#1B3264', align: 'center', enabled: true },
+        { id: 'description',   label: 'Description / Program Details', x: 50, y: 68, fontSize: 16, fontFamily: 'Inter', bold: false, italic: false, color: '#444444', align: 'center', enabled: true },
+        { id: 'companyName',   label: 'Company Name (at …)',  x: 50, y: 74, fontSize: 18, fontFamily: 'Inter', bold: true,  italic: false, color: '#333333', align: 'center', enabled: true },
+        { id: 'registrationId', label: 'Registration ID',     x: 10, y: 80, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#555555', align: 'left',   enabled: true },
         { id: 'dateOfIssue',   label: 'Date of Issue',        x: 10, y: 83, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#1B3264', align: 'left',   enabled: true },
         { id: 'place',         label: 'Place',                x: 90, y: 83, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#1B3264', align: 'right',  enabled: true },
         { id: 'ceoName',       label: 'CEO Name',             x: 50, y: 88, fontSize: 15, fontFamily: 'Inter', bold: true,  italic: false, color: '#1B3264', align: 'center', enabled: true },
@@ -271,13 +273,15 @@ export async function generateCertificate(cfg) {
 
     const dataMap = {
       certTitle:     cfg.certTitle     || '',
+      introLine:     'This is to certify that',
       studentName:   cfg.studentName || cfg.name || '',
-      courseName:    cfg.courseName    || '',
-      department:    cfg.department    || '',
+      department:    cfg.department ? `from ${cfg.department}` : '',
       college:       cfg.college       || '',
+      completedLine: 'has successfully completed the',
+      courseName:    cfg.courseName    || '',
       description:   cfg.description   || '',
-      companyName:   cfg.companyName   || '',
-      registrationId: cfg.registrationId || '',
+      companyName:   cfg.companyName ? `at ${cfg.companyName}` : '',
+      registrationId: cfg.registrationId ? `Registration ID: ${cfg.registrationId}` : '',
       dateOfIssue:   cfg.dateOfIssue   || '',
       place:         cfg.place         || '',
       ceoName:       cfg.ceoName       || '',

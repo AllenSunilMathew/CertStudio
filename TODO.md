@@ -20,5 +20,6 @@
 - [x] 9. `src/pages/Generate.jsx` — Add Certificate Title input field; pass custom title through preview & generation; store in history.
 - [x] 10. `src/utils/certGenerator.js` + `storage.js` + `Generate.jsx` + `Templates.jsx` — Add `companyName` field drawn as "at {Company Name}".
 - [x] 11. `src/index.css` — Fix invisible dropdown options (dark background + readable text).
-- [x] 12. Verify — Confirm the app builds (✓ 886ms) and the fixes work in the browser.
+- [x] 12. Verify — Confirm the app builds (✓ 713ms) and the fixes work in the browser.
+- [x] 13. Add static default lines as customizable text elements: `introLine` ("This is to certify that"), `completedLine` ("has successfully completed the"), and prefix "from …", "at …", "Registration ID:" — so textbox values stay empty by default and are printed only when filled. Built-in design updated to match (removed trailing comma after department).
 

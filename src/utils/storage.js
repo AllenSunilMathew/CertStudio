@@ -1,4 +1,3 @@
-\
 const KEYS = {
   TYPES:   'certstudio_types',
   HISTORY: 'certstudio_history',
