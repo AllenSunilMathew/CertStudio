@@ -171,6 +171,11 @@ async function drawBuiltInContent(ctx, W, H, cfg) {
     const dl2 = wrapText(ctx, cfg.description, BODY_MAX);
     dl2.forEach((l,i) => ctx.fillText(l, cx, y+i*22)); ctx.restore(); y += dl2.length*22+6;
   }
+  if (cfg.companyName) {
+    ctx.save(); ctx.font='bold 18px Inter,sans-serif'; ctx.fillStyle='#333'; ctx.textAlign='center'; ctx.textBaseline='top';
+    const cn = wrapText(ctx, `at ${cfg.companyName}`, BODY_MAX);
+    cn.forEach((l,i) => ctx.fillText(l, cx, y+i*26)); ctx.restore(); y += cn.length*26+6;
+  }
   if (cfg.registrationId) {
     ctx.save(); ctx.font='15px Inter,sans-serif'; ctx.fillStyle='#444'; ctx.textAlign='center'; ctx.textBaseline='top';
     ctx.fillText(`Registration ID: ${cfg.registrationId}`, cx, y); ctx.restore(); y += 24;
@@ -247,11 +252,13 @@ export async function generateCertificate(cfg) {
     // Lazy-load DEFAULT_TEXT_ELEMENTS without a hard import (avoids circular dep)
     if (!elements) {
       elements = [
+        { id: 'certTitle',     label: 'Certificate Title',    x: 50, y: 20, fontSize: 40, fontFamily: 'Dancing Script', bold: true, italic: true, color: '#1B3264', align: 'center', enabled: true },
         { id: 'studentName',   label: 'Student Name',         x: 50, y: 36, fontSize: 38, fontFamily: 'Inter', bold: true,  italic: false, color: '#1B3264', align: 'center', enabled: true },
         { id: 'courseName',    label: 'Course / Program',     x: 50, y: 57, fontSize: 26, fontFamily: 'Inter', bold: true,  italic: false, color: '#1B3264', align: 'center', enabled: true },
         { id: 'department',    label: 'Department',           x: 50, y: 48, fontSize: 18, fontFamily: 'Inter', bold: false, italic: false, color: '#444444', align: 'center', enabled: true },
         { id: 'college',       label: 'College / Institution', x: 50, y: 54, fontSize: 18, fontFamily: 'Inter', bold: true,  italic: false, color: '#333333', align: 'center', enabled: true },
         { id: 'description',   label: 'Description / Program Details', x: 50, y: 66, fontSize: 16, fontFamily: 'Inter', bold: false, italic: false, color: '#444444', align: 'center', enabled: true },
+        { id: 'companyName',   label: 'Company Name',        x: 50, y: 71, fontSize: 18, fontFamily: 'Inter', bold: true,  italic: false, color: '#333333', align: 'center', enabled: true },
         { id: 'registrationId', label: 'Registration ID',     x: 10, y: 78, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#555555', align: 'left',   enabled: true },
         { id: 'dateOfIssue',   label: 'Date of Issue',        x: 10, y: 83, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#1B3264', align: 'left',   enabled: true },
         { id: 'place',         label: 'Place',                x: 90, y: 83, fontSize: 14, fontFamily: 'Inter', bold: false, italic: false, color: '#1B3264', align: 'right',  enabled: true },
@@ -263,11 +270,13 @@ export async function generateCertificate(cfg) {
     }
 
     const dataMap = {
+      certTitle:     cfg.certTitle     || '',
       studentName:   cfg.studentName || cfg.name || '',
       courseName:    cfg.courseName    || '',
       department:    cfg.department    || '',
       college:       cfg.college       || '',
       description:   cfg.description   || '',
+      companyName:   cfg.companyName   || '',
       registrationId: cfg.registrationId || '',
       dateOfIssue:   cfg.dateOfIssue   || '',
       place:         cfg.place         || '',

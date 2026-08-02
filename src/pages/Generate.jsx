@@ -26,8 +26,10 @@ const CAT_COLORS = {
 };
 
 const DEFAULT_CONTENT = {
+  certTitle:           '',
   department:        '',
   college:           '',
+  companyName:       '',
   courseName:        '',
   description:       '',
   dateOfIssue:       new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
@@ -61,8 +63,10 @@ function CertPreview({ certType, content, previewName }) {
         studentName:     previewName,       // explicit alias for textElements mapping
         certNumber,
         // ── Batch content (same for all) ─────────────────────────────────────
+        certTitle:       content.certTitle || certType.certTitle || 'Certificate',
         department:      content.department   || '',
         college:         content.college      || '',
+        companyName:     content.companyName  || '',
         courseName:      content.courseName   || '',
         description:     content.description  || '',
         dateOfIssue:     content.dateOfIssue  || '',
@@ -71,7 +75,6 @@ function CertPreview({ certType, content, previewName }) {
         templateDataUrl: certType.templateDataUrl   || null,
         textElements:    certType.textElements      || null,
         registrationId:  certType.registrationId   || '',
-        certTitle:       certType.certTitle         || 'Certificate',
         ceoName:         certType.ceoName           || '',
         ceoTitle:        certType.ceoTitle          || '',
         logoDataUrl:     certType.logoDataUrl       || null,
@@ -203,8 +206,10 @@ export default function Generate() {
 
         const canvas = await generateCertificate({
           name, studentName: name, certNumber,
+          certTitle:       content.certTitle || selectedType.certTitle || 'Certificate',
           department:      content.department,
           college:         content.college,
+          companyName:     content.companyName,
           courseName:      content.courseName,
           description:     content.description,
           dateOfIssue:     content.dateOfIssue,
@@ -212,7 +217,6 @@ export default function Generate() {
           templateDataUrl: selectedType.templateDataUrl  || null,
           textElements:    selectedType.textElements     || null,
           registrationId:  selectedType.registrationId  || '',
-          certTitle:       selectedType.certTitle        || 'Certificate',
           ceoName:         selectedType.ceoName,
           ceoTitle:        selectedType.ceoTitle,
           logoDataUrl:     selectedType.logoDataUrl      || null,
@@ -234,6 +238,8 @@ export default function Generate() {
       addHistory({
         typeId: selectedType.id, typeName: selectedType.name,
         category: selectedType.category, namesCount: names.length, names,
+        certTitle: content.certTitle || selectedType.certTitle || 'Certificate',
+        companyName: content.companyName,
         department: content.department, college: content.college,
         courseName: content.courseName, description: content.description,
         dateOfIssue: content.dateOfIssue, place: content.place,
@@ -416,6 +422,17 @@ export default function Generate() {
                   <div className="space-y-3">
                     <div>
                       <label className={labelCls}>
+                        <Award size={10} className="inline mr-1" />
+                        Certificate Title
+                        <span className="text-slate-500 ml-1 normal-case font-normal">(e.g. Internship Certificate, Guard of Honour, Voluntary…)</span>
+                      </label>
+                      <input className={inputCls} style={inputStyle}
+                        placeholder={selectedType?.certTitle || 'Certificate'}
+                        value={content.certTitle}
+                        onChange={e => set('certTitle', e.target.value)} />
+                    </div>
+                    <div>
+                      <label className={labelCls}>
                         <Building2 size={10} className="inline mr-1" />
                         Department
                         <span className="text-slate-500 ml-1 normal-case font-normal">(replaces "from _____ department")</span>
@@ -431,6 +448,17 @@ export default function Generate() {
                         placeholder="Rajiv Gandhi Institute of Technology, Kottayam"
                         value={content.college}
                         onChange={e => set('college', e.target.value)} />
+                    </div>
+                    <div>
+                      <label className={labelCls}>
+                        <Building2 size={10} className="inline mr-1" />
+                        Company Name
+                        <span className="text-slate-500 ml-1 normal-case font-normal">(shown after "at")</span>
+                      </label>
+                      <input className={inputCls} style={inputStyle}
+                        placeholder="Inker Robotics Solutions Pvt. Ltd."
+                        value={content.companyName}
+                        onChange={e => set('companyName', e.target.value)} />
                     </div>
                   </div>
                 </SectionHeader>

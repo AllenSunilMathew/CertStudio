@@ -35,11 +35,13 @@ const ALIGN_OPTS = [
 
 // Sample preview values for each field
 const PREVIEW_VALS = {
+  certTitle:   'Internship Certificate',
   studentName: 'John Doe',
   courseName:  'IoT & Robotics Programme',
   department:  'Robotics and Artificial Intelligence',
   college:     'Rajiv Gandhi Institute of Technology, Kottayam',
   description: 'Covering the basics of IoT, Robotics, AI, and Software Development through a 2-Week Hybrid Program conducted from May 25, 2026 to June 05, 2026.',
+  companyName: 'Inker Robotics Solutions Pvt. Ltd.',
   registrationId: 'DIPP24591/2018/KSUM798',
   dateOfIssue: '25-06-2026',
   place:       'Kottayam',
@@ -82,6 +84,7 @@ function CertPreview({ form }) {
         department:      PREVIEW_VALS.department,
         college:         PREVIEW_VALS.college,
         description:     PREVIEW_VALS.description,
+        companyName:     PREVIEW_VALS.companyName,
         registrationId:  PREVIEW_VALS.registrationId,
         dateOfIssue:     PREVIEW_VALS.dateOfIssue,
         place:           PREVIEW_VALS.place,

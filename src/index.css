@@ -278,6 +278,16 @@ body {
 .border-3 { border-width: 3px; }
 .hover\:bg-white\/3:hover { background: rgba(255,255,255,0.03); }
 
+/* ── Dropdowns: make option lists readable on dark theme ───────────────────── */
+select {
+  color-scheme: dark;
+}
+select option,
+select optgroup {
+  background-color: #0f172a;
+  color: #e2e8f0;
+}
+
 /* ── Responsive page padding ─────────────────────────────────────────────────── */
 .page-pad { padding: clamp(1rem, 3vw, 1.5rem); }
 
