@@ -28,7 +28,7 @@ export default function Settings() {
             </div>
           </div>
           <p className="text-sm text-slate-400 mt-4 leading-relaxed">
-            CertStudio is a professional certificate generation platform built for educational institutions.
+           CertStudio is a professional certificate generation platform built for educational institutions.
             Upload certificate templates, import names from Excel spreadsheets, and instantly generate
             personalized certificates for courses, internships, and industrial visits.
           </p>

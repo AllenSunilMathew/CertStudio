@@ -26,25 +26,25 @@ const CAT_COLORS = {
 };
 
 const DEFAULT_CONTENT = {
-  certTitle:           '',
-  department:        '',
-  college:           '',
-  companyName:       '',
-  courseName:        '',
-  description:       '',
-  dateOfIssue:       new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
-  place:             '',
-  certNumberStart:   null, // null = use type's default
-  sealDataUrl:       null,
-  sealFileName:      null,
+  certTitle: '',
+  department: '',
+  college: '',
+  companyName: '',
+  courseName: '',
+  description: '',
+  dateOfIssue: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: '2-digit', year: 'numeric' }),
+  place: '',
+  certNumberStart: null, // null = use type's default
+  sealDataUrl: null,
+  sealFileName: null,
 };
 
 // ── Live Certificate Preview ──────────────────────────────────────────────────
 function CertPreview({ certType, content, previewName }) {
-  const [src, setSrc]         = useState(null);
+  const [src, setSrc] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState(null);
-  const timerRef              = useRef(null);
+  const [error, setError] = useState(null);
+  const timerRef = useRef(null);
 
   useEffect(() => {
     if (!certType || !previewName) { setSrc(null); return; }
@@ -54,34 +54,34 @@ function CertPreview({ certType, content, previewName }) {
     setError(null);
 
     timerRef.current = setTimeout(() => {
-      const startNum   = content.certNumberStart ?? (certType.certNumberStart ?? 1);
+      const startNum = content.certNumberStart ?? (certType.certNumberStart ?? 1);
       const certNumber = `${certType.certNumberPrefix || ''}${String(startNum).padStart(3, '0')}`;
 
       generateCertificate({
         // ── Per-student content ─────────────────────────────────────────────
-        name:            previewName,
-        studentName:     previewName,       // explicit alias for textElements mapping
+        name: previewName,
+        studentName: previewName,       // explicit alias for textElements mapping
         certNumber,
         // ── Batch content (same for all) ─────────────────────────────────────
-        certTitle:       content.certTitle || certType.certTitle || 'Certificate',
-        department:      content.department   || '',
-        college:         content.college      || '',
-        companyName:     content.companyName  || '',
-        courseName:      content.courseName   || '',
-        description:     content.description  || '',
-        dateOfIssue:     content.dateOfIssue  || '',
-        place:           content.place        || '',
+        certTitle: content.certTitle || certType.certTitle || 'Certificate',
+        department: content.department || '',
+        college: content.college || '',
+        companyName: content.companyName || '',
+        courseName: content.courseName || '',
+        description: content.description || '',
+        dateOfIssue: content.dateOfIssue || '',
+        place: content.place || '',
         // ── Cert type settings ───────────────────────────────────────────────
-        templateDataUrl: certType.templateDataUrl   || null,
-        textElements:    certType.textElements      || null,
-        registrationId:  certType.registrationId   || '',
-        ceoName:         certType.ceoName           || '',
-        ceoTitle:        certType.ceoTitle          || '',
-        logoDataUrl:     certType.logoDataUrl       || null,
+        templateDataUrl: certType.templateDataUrl || null,
+        textElements: certType.textElements || null,
+        registrationId: certType.registrationId || '',
+        ceoName: certType.ceoName || '',
+        ceoTitle: certType.ceoTitle || '',
+        logoDataUrl: certType.logoDataUrl || null,
         signatureDataUrl: content.sealDataUrl || certType.signatureDataUrl || null,
-        primaryColor:    certType.primaryColor      || '#1B3264',
-        accentColor:     certType.accentColor       || '#F47B20',
-        bgColor:         certType.bgColor           || '#CECCBF',
+        primaryColor: certType.primaryColor || '#1B3264',
+        accentColor: certType.accentColor || '#F47B20',
+        bgColor: certType.bgColor || '#CECCBF',
       })
         .then(canvas => { setSrc(canvas.toDataURL('image/png')); setLoading(false); })
         .catch(e => { setError(e.message); setLoading(false); });
@@ -132,19 +132,19 @@ function SectionHeader({ icon: Icon, label, color, children }) {
 export default function Generate() {
   const { certTypes, addHistory } = useApp();
 
-  const [step,         setStep]        = useState(1);
+  const [step, setStep] = useState(1);
   const [selectedType, setSelectedType] = useState(null);
-  const [excelFile,    setExcelFile]   = useState(null);
-  const [parseData,    setParseData]   = useState(null);
-  const [selectedCol,  setSelectedCol] = useState(null);
-  const [names,        setNames]       = useState([]);
-  const [parsing,      setParsing]     = useState(false);
-  const [content,      setContent]     = useState(DEFAULT_CONTENT);
-  const [showPreview,  setShowPreview] = useState(true);
-  const [generating,   setGenerating]  = useState(false);
-  const [progress,     setProgress]    = useState(0);
-  const [genDone,      setGenDone]     = useState(false);
-  const [genError,     setGenError]    = useState(null);
+  const [excelFile, setExcelFile] = useState(null);
+  const [parseData, setParseData] = useState(null);
+  const [selectedCol, setSelectedCol] = useState(null);
+  const [names, setNames] = useState([]);
+  const [parsing, setParsing] = useState(false);
+  const [content, setContent] = useState(DEFAULT_CONTENT);
+  const [showPreview, setShowPreview] = useState(true);
+  const [generating, setGenerating] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [genDone, setGenDone] = useState(false);
+  const [genError, setGenError] = useState(null);
 
   const set = useCallback((key, val) => setContent(p => ({ ...p, [key]: val })), []);
 
@@ -196,37 +196,37 @@ export default function Generate() {
     setGenerating(true); setGenDone(false); setGenError(null); setProgress(0); setStep(4);
 
     try {
-      const zip   = new JSZip();
+      const zip = new JSZip();
       const startNum = content.certNumberStart ?? (selectedType.certNumberStart ?? 1);
 
       for (let i = 0; i < names.length; i++) {
-        const name      = names[i];
-        const certNum   = startNum + i;
+        const name = names[i];
+        const certNum = startNum + i;
         const certNumber = `${selectedType.certNumberPrefix || ''}${String(certNum).padStart(3, '0')}`;
 
         const canvas = await generateCertificate({
           name, studentName: name, certNumber,
-          certTitle:       content.certTitle || selectedType.certTitle || 'Certificate',
-          department:      content.department,
-          college:         content.college,
-          companyName:     content.companyName,
-          courseName:      content.courseName,
-          description:     content.description,
-          dateOfIssue:     content.dateOfIssue,
-          place:           content.place,
-          templateDataUrl: selectedType.templateDataUrl  || null,
-          textElements:    selectedType.textElements     || null,
-          registrationId:  selectedType.registrationId  || '',
-          ceoName:         selectedType.ceoName,
-          ceoTitle:        selectedType.ceoTitle,
-          logoDataUrl:     selectedType.logoDataUrl      || null,
+          certTitle: content.certTitle || selectedType.certTitle || 'Certificate',
+          department: content.department,
+          college: content.college,
+          companyName: content.companyName,
+          courseName: content.courseName,
+          description: content.description,
+          dateOfIssue: content.dateOfIssue,
+          place: content.place,
+          templateDataUrl: selectedType.templateDataUrl || null,
+          textElements: selectedType.textElements || null,
+          registrationId: selectedType.registrationId || '',
+          ceoName: selectedType.ceoName,
+          ceoTitle: selectedType.ceoTitle,
+          logoDataUrl: selectedType.logoDataUrl || null,
           signatureDataUrl: content.sealDataUrl || selectedType.signatureDataUrl || null,
-          primaryColor:    selectedType.primaryColor,
-          accentColor:     selectedType.accentColor,
-          bgColor:         selectedType.bgColor,
+          primaryColor: selectedType.primaryColor,
+          accentColor: selectedType.accentColor,
+          bgColor: selectedType.bgColor,
         });
 
-        const blob     = await canvasToBlob(canvas);
+        const blob = await canvasToBlob(canvas);
         const safeName = name.replace(/[^a-zA-Z0-9\s]/g, '').trim().replace(/\s+/g, '_');
         zip.file(`${certNumber}_${safeName}_certificate.png`, blob);
         setProgress(Math.round(((i + 1) / names.length) * 100));
@@ -260,9 +260,9 @@ export default function Generate() {
     setNames([]); setContent(DEFAULT_CONTENT); setGenDone(false); setGenError(null); setProgress(0);
   };
 
-  const inputCls  = 'w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none focus:ring-2 focus:ring-indigo-500 transition-all';
+  const inputCls = 'w-full px-3 py-2.5 rounded-xl text-sm text-white outline-none focus:ring-2 focus:ring-indigo-500 transition-all';
   const inputStyle = { background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.1)' };
-  const labelCls  = 'block text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wider';
+  const labelCls = 'block text-xs font-semibold text-slate-400 mb-1 uppercase tracking-wider';
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
@@ -288,9 +288,9 @@ export default function Generate() {
           <div key={s.id} className="flex items-center flex-1">
             <div className="flex flex-col items-center">
               <motion.div animate={{
-                background: step > s.id  ? 'linear-gradient(135deg,#059669,#10b981)'
-                          : step === s.id ? 'linear-gradient(135deg,#4f46e5,#7c3aed)'
-                          : 'rgba(255,255,255,0.08)',
+                background: step > s.id ? 'linear-gradient(135deg,#059669,#10b981)'
+                  : step === s.id ? 'linear-gradient(135deg,#4f46e5,#7c3aed)'
+                    : 'rgba(255,255,255,0.08)',
               }} className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold text-white">
                 {step > s.id ? <CheckCircle size={18} /> : s.id}
               </motion.div>
@@ -320,8 +320,7 @@ export default function Generate() {
               {certTypes.length === 0 ? (
                 <div className="text-center py-16 text-slate-500">
                   <Award size={40} className="mx-auto mb-3 opacity-30" />
-                  <p>No certificate types found. <a href="/templates" className="text-indigo-400">Create one first →</a></p>
-                </div>
+                  <p>  No certificate types found. Create Certificate</p>                </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
                   {certTypes.map(type => {
@@ -378,7 +377,7 @@ export default function Generate() {
                     'text/csv': ['.csv'],
                   }}
                   label="Drop Excel or CSV here"
-                  subLabel=".xlsx · .xls · .csv (any spreadsheet)"  
+                  subLabel=".xlsx · .xls · .csv (any spreadsheet)"
                   onFileAccepted={handleExcel}
                 />
               )}
@@ -547,16 +546,16 @@ export default function Generate() {
                       </div>
                       <p className="text-xs text-slate-500 mt-1">
                         Will generate: <span className="text-indigo-400 font-mono">
-                          {selectedType?.certNumberPrefix || ''}{String(content.certNumberStart ?? (selectedType?.certNumberStart ?? 1)).padStart(3,'0')}
+                          {selectedType?.certNumberPrefix || ''}{String(content.certNumberStart ?? (selectedType?.certNumberStart ?? 1)).padStart(3, '0')}
                         </span>
-                        {names.length > 1 && <span> … to {selectedType?.certNumberPrefix || ''}{String((content.certNumberStart ?? (selectedType?.certNumberStart ?? 1)) + names.length - 1).padStart(3,'0')}</span>}
+                        {names.length > 1 && <span> … to {selectedType?.certNumberPrefix || ''}{String((content.certNumberStart ?? (selectedType?.certNumberStart ?? 1)) + names.length - 1).padStart(3, '0')}</span>}
                       </p>
                     </div>
                     <div>
                       <label className={labelCls}><Stamp size={10} className="inline mr-1" />Extra Seal / Stamp</label>
                       <FileUploadZone
                         accept={{
-                          'image/*': ['.png','.jpg','.jpeg','.webp','.bmp','.gif','.svg'],
+                          'image/*': ['.png', '.jpg', '.jpeg', '.webp', '.bmp', '.gif', '.svg'],
                           'application/pdf': ['.pdf'],
                         }}
                         label="Upload Seal" subLabel="PNG · JPG · PDF · SVG"
