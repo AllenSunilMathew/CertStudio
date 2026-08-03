@@ -734,7 +734,7 @@ export default function Templates() {
               </div>
 
               {/* ── Right: live preview ─────────────────────────────────────── */}
-              <div className="w-[440px] shrink-0 overflow-y-auto p-6 space-y-4"
+              <div className="w-[440px] shrink-0 sticky top-0 self-start h-fit max-h-[88vh] overflow-y-auto p-6 space-y-4"
                 style={{ background: 'rgba(0,0,0,0.2)' }}>
                 <h3 className="text-sm font-semibold text-slate-300 flex items-center gap-2">
                   <Eye size={14} className="text-indigo-400" /> Live Preview

@@ -46,13 +46,13 @@ export default function Dashboard() {
           <h1 className="text-2xl sm:text-3xl font-bold text-white">Dashboard</h1>
           <p className="text-slate-400 text-sm mt-0.5">Certificate generation overview</p>
         </div>
-        <Link to="/generate">
+        {/* <Link to="/generate">
           <motion.button whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }}
             className="flex items-center gap-2 px-3 py-2 sm:px-5 sm:py-2.5 rounded-xl font-semibold text-white text-sm"
             style={{ background: 'linear-gradient(135deg,#4f46e5,#7c3aed)' }}>
-            <Zap size={15} /> <span className="hidden sm:inline">Generate</span><span className="sm:hidden">Go</span>
+            <Zap size={15} /> <span className="hidden sm:inline">geen</span><span className="sm:hidden">Go</span>
           </motion.button>
-        </Link>
+        </Link> */}
       </motion.div>
 
       {/* Hero Banner */}
